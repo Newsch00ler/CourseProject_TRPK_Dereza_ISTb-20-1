@@ -6,7 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class DBQueries {
-    private static final String PATH_TO_DB_FILE = "library.db";
+    private static final String PATH_TO_DB_FILE = "library1.db";
     private static final String URL = "jdbc:sqlite:" + PATH_TO_DB_FILE;
     private Connection con;
     private PreparedStatement stmt;
@@ -19,7 +19,7 @@ public class DBQueries {
         }
     }
 
-    public void createDB() throws SQLException, Exception{
+    /*public void createDB() throws SQLException, Exception{
         stmt = con.prepareStatement("CREATE TABLE if not exists Status (" +
                 "ID_status INTEGER PRIMARY KEY UNIQUE NOT NULL CHECK(ID_status > 0)," +
                 "status_value TEXT NOT NULL);");
@@ -130,7 +130,7 @@ public class DBQueries {
 //        stmt.execute();
         stmt.close();
         closeDB();
-    }
+    }*/
 
     public int maxID_Readers() throws SQLException {
         int id = 0;
@@ -315,6 +315,60 @@ public class DBQueries {
         return notice;
     }*/
 
+    public void updateReaders1() throws SQLException {
+        try{
+            initDB();
+            stmt = con.prepareStatement("UPDATE Readers " +
+                    "SET ID_status = 3 " +
+                    "WHERE ID_reader IN ( " +
+                    "    SELECT ID_reader " +
+                    "    FROM LibraryCards " +
+                    "    WHERE ID_library_card IN ( " +
+                    "        SELECT ID_library_card " +
+                    "        FROM Books " +
+                    "        where date_receiving < DATE('now', '-30 day') " +
+                    "    ) " +
+                    ") AND ID_status IN ( " +
+                    "    SELECT ID_status " +
+                    "    FROM Readers " +
+                    "    WHERE ID_status = 2 " +
+                    ")");
+            stmt.executeUpdate();
+            stmt.close();
+            closeDB();
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public void updateReaders2() throws SQLException {
+        try{
+            initDB();
+            stmt = con.prepareStatement("UPDATE Readers " +
+                    "SET ID_status = 2 " +
+                    "WHERE ID_reader IN ( " +
+                    "    SELECT ID_reader " +
+                    "    FROM LibraryCards " +
+                    "    WHERE ID_library_card IN ( " +
+                    "        SELECT ID_library_card " +
+                    "        FROM Books " +
+                    "        where date_receiving < DATE('now', '-30 day') " +
+                    "    ) " +
+                    ") AND ID_status IN ( " +
+                    "    SELECT ID_status " +
+                    "    FROM Readers " +
+                    "    WHERE ID_status = 1 " +
+                    ")");
+            stmt.executeUpdate();
+            stmt.close();
+            closeDB();
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+
     public ArrayList<Reader> getReaders() throws SQLException{
         ArrayList<Reader> readers = new ArrayList<>();
         try{
@@ -382,7 +436,7 @@ public class DBQueries {
         int size = 0;
         try{
             initDB();
-            stmt = con.prepareStatement("SELECT COUNT(*) FROM Readers WHERE ID_status != 1");
+            stmt = con.prepareStatement("SELECT COUNT(*) FROM Debtors");
             rs = stmt.executeQuery();
             size = rs.getInt("COUNT(*)");
             closeDB();
@@ -413,6 +467,37 @@ public class DBQueries {
             System.out.println(ex.getMessage());
         }
         return penalties;
+    }
+
+    public void updatePenalties() throws SQLException {
+        try{
+            initDB();
+            stmt = con.prepareStatement("UPDATE Penalties " +
+                    "SET ID_status = 3, name = 'Штраф', fine = 0.3 " +
+                    "WHERE ID_status = 2;");
+            stmt.executeUpdate();
+            stmt.close();
+            closeDB();
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public void insertPenalties() throws SQLException {
+        try{
+            initDB();
+            stmt = con.prepareStatement("INSERT INTO Penalties (ID_reader, ID_status, name) " +
+                    "SELECT ID_reader, 2, 'Предупреждение' " +
+                    "FROM Debtors " +
+                    "WHERE ID_status = 2");
+            stmt.executeUpdate();
+            stmt.close();
+            closeDB();
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
     }
 
     public int getPenaltiesSize() throws SQLException{
@@ -448,6 +533,38 @@ public class DBQueries {
             System.out.println(ex.getMessage());
         }
         return notices;
+    }
+
+    public void insertNotices1() throws SQLException {
+        try{
+            initDB();
+            stmt = con.prepareStatement("INSERT INTO Notices (ID_penalty, message) " +
+                    "SELECT ID_penalty, name || ': ' || CAST(fine AS TEXT) || ' рубля' " +
+                    "FROM Penalties " +
+                    "WHERE ID_status = 3");
+            stmt.executeUpdate();
+            stmt.close();
+            closeDB();
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public void insertNotices2() throws SQLException {
+        try{
+            initDB();
+            stmt = con.prepareStatement("INSERT INTO Notices (ID_penalty, message) " +
+                    "SELECT ID_penalty, 'Вам ' || name  " +
+                    "FROM Penalties " +
+                    "WHERE ID_status = 2");
+            stmt.executeUpdate();
+            stmt.close();
+            closeDB();
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
     }
 
     public int getNoticesSize() throws SQLException{
