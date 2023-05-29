@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/Users/Home/Desktop/Учёба/Техн разработки программных комплексов/Курсач(ТРПК)/CourseProject_Dereza_ISTb-20-1/library.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="3842"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,24:mainReadersLibraryCardStatus"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="Books" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="61"/><column index="2" value="109"/><column index="3" value="72"/><column index="4" value="43"/><column index="5" value="52"/><column index="6" value="40"/><column index="7" value="104"/><column index="8" value="59"/><column index="9" value="46"/><column index="10" value="128"/><column index="11" value="48"/><column index="12" value="105"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="LibraryCards" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="109"/><column index="2" value="74"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Notices" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="70"/><column index="2" value="65"/><column index="3" value="79"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Penalties" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="79"/><column index="2" value="74"/><column index="3" value="72"/><column index="4" value="111"/><column index="5" value="40"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Readers" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="74"/><column index="2" value="109"/><column index="3" value="70"/><column index="4" value="72"/><column index="5" value="105"/><column index="6" value="41"/><column index="7" value="60"/><column index="8" value="66"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="ReadersLibraryCardStatus" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths/><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="ReadersPenaltyNotice" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="70"/><column index="2" value="87"/><column index="3" value="67"/><column index="4" value="99"/><column index="5" value="75"/><column index="6" value="104"/><column index="7" value="102"/><column index="8" value="86"/><column index="9" value="66"/><column index="10" value="65"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Status" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="72"/><column index="2" value="93"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="asas" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="70"/><column index="2" value="87"/><column index="3" value="67"/><column index="4" value="99"/><column index="5" value="75"/><column index="6" value="104"/><column index="7" value="102"/><column index="8" value="86"/><column index="9" value="66"/><column index="10" value="65"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="sss" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="87"/><column index="2" value="67"/><column index="3" value="75"/><column index="4" value="104"/><column index="5" value="102"/><column index="6" value="86"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">SELECT full_name, ID_status, phone_number, email, address, passport FROM Readers
+SELECT COUNT(*) FROM Readers
+SELECT ID_penalty, ID_reader, ID_status, name, fine FROM Penalties
+SELECT COUNT(*) FROM Penalties
+SELECT ID_notice, message, ID_penalty FROM Notices
+SELECT COUNT(*) FROM Notices
+
+CREATE VIEW ReadersLibraryCardStatus
+as SELECT 
+r.ID_reader as [ID reader],
+lc.ID_library_card as [Library card],
+r.full_name as [Full name],
+s.status_value as [Status reader],
+r.phone_number as [Phone],
+r.email as [Email],
+r.address as [Address],
+r.passport as [Passport]
+FROM Readers as r 
+join LibraryCards as lc on r.ID_library_card = lc.ID_library_card 
+join Status as s on r.ID_status = s.ID_status 
+
+SELECT * FROM ReadersLibraryCardStatus
+
+CREATE VIEW ReadersPenaltyNotice
+as SELECT 
+r.ID_reader as [ID reader],
+lc.ID_library_card as [Library card],
+r.full_name as [Full name],
+rs.status_value as [Status reader],
+p.ID_penalty as [ID penalty],
+ps.status_value as [Status penalty],
+p.name as [Name penalty],
+p.fine as [Fine penalty],
+n.ID_notice as [ID notice],
+n.message as [Message]
+FROM Readers as r 
+join LibraryCards as lc on r.ID_library_card = lc.ID_library_card 
+join Status as rs on r.ID_status = rs.ID_status 
+join Penalties as p on r.ID_reader = p.ID_reader 
+join Notices as n on p.ID_penalty = n.ID_penalty
+join Status as ps on p.ID_status = ps.ID_status 
+
+SELECT * FROM ReadersPenaltyNotice
+
+CREATE VIEW sss
+as SELECT
+lc.ID_library_card as [Library card],
+r.full_name as [Full name],
+p.ID_penalty as [ID penalty],
+ps.status_value as [Status penalty],
+p.name as [Name penalty],
+p.fine as [Fine penalty]
+FROM Readers as r 
+join LibraryCards as lc on r.ID_library_card = lc.ID_library_card 
+join Penalties as p on r.ID_reader = p.ID_reader
+join Status as ps on p.ID_status = ps.ID_status 
+
+SELECT * FROM sss
+
+CREATE VIEW asas
+as SELECT
+r.ID_reader as [ID reader],
+r.ID_library_card as [Library card],
+r.full_name as [Full name],
+rs.status_value as [Status reader],
+p.ID_penalty as [ID penalty],
+ps.status_value as [Status penalty],
+p.name as [Name penalty],
+p.fine as [Fine penalty],
+n.ID_notice as [ID notice],
+n.message as [Message]
+FROM Readers as r 
+join LibraryCards as lc on r.ID_library_card = lc.ID_library_card 
+join Status as rs on r.ID_status = rs.ID_status 
+join Penalties as p on r.ID_reader = p.ID_reader 
+join Status as ps on p.ID_status = ps.ID_status 
+join Notices as n on p.ID_penalty = n.ID_penalty
+
+SELECT [ID penalty], [Library card], [Name penalty], [Fine penalty] FROM asas
+SELECT COUNT(*) FROM asas</sql><sql name="Edit View ReadersLibraryCardStatus">DROP VIEW &quot;main&quot;.&quot;ReadersLibraryCardStatus&quot;;
+CREATE VIEW ReadersLibraryCardStatus
+as SELECT 
+r.ID_reader as [ID reader],
+lc.ID_library_card as [Library card],
+r.full_name as [Full name],
+s.status_value as [Status reader],
+r.phone_number as [Phone],
+r.email as [Email],
+r.address as [Address],
+r.passport as [Passport]
+FROM Readers as r 
+join LibraryCards as lc on r.ID_library_card = lc.ID_library_card 
+join Status as s on r.ID_status = s.ID_status</sql><sql name="Edit View ReadersPenaltyNotice">DROP VIEW &quot;main&quot;.&quot;ReadersPenaltyNotice&quot;;
+CREATE VIEW ReadersPenaltyNotice
+as SELECT 
+r.ID_reader as [ID reader],
+r.ID_library_card as [Library card],
+r.full_name as [Full name],
+rs.status_value as [Status reader],
+p.ID_penalty as [ID penalty],
+ps.status_value as [Status penalty],
+p.name as [Name penalty],
+p.fine as [Fine penalty],
+n.ID_notice as [ID notice],
+n.message as [Message]
+FROM Readers as r 
+join LibraryCards as lc on r.ID_library_card = lc.ID_library_card 
+join Status as rs on r.ID_status = rs.ID_status 
+join Penalties as p on r.ID_reader = p.ID_reader 
+join Notices as n on p.ID_penalty = n.ID_penalty
+join Status as ps on p.ID_status = ps.ID_status
+
+SELECT COUNT(*) FROM Readers</sql><current_tab id="0"/></tab_sql></sqlb_project>
