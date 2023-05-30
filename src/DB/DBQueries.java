@@ -213,29 +213,6 @@ public class DBQueries {
         }
     }
 
-    public void addLibraryCard(LibraryCard libraryCard) throws SQLException{
-//        stmt = con.prepareStatement("SELECT MAX(ID_library_card) FROM LibraryCards");
-//        rs = stmt.executeQuery();
-//        int ID_library_card = rs.getInt("MAX(ID_library_card)") + 1;
-        stmt = con.prepareStatement("SELECT MAX(ID_reader) FROM Readers");
-        rs = stmt.executeQuery();
-        int ID_reader = rs.getInt("MAX(ID_reader)");
-        try{
-            initDB();
-            stmt = con.prepareStatement("INSERT INTO Readers" +
-                    "(ID_reader) " +
-                    "VALUES (?)");
-            //stmt.setObject(1, ID_library_card);
-            stmt.setObject(1, ID_reader);
-            stmt.execute();
-            stmt.close();
-            closeDB();
-        }
-        catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
-    }
-
     public void updateReader(int ID_reader, int status) throws SQLException {
         try{
             initDB();
@@ -293,27 +270,44 @@ public class DBQueries {
         return reader;
     }
 
-    /*public Notice getNotice(int id) throws SQLException{
-        Notice notice = null;
+    public ArrayList<Reader> getReaders() throws SQLException{
+        ArrayList<Reader> readers = new ArrayList<>();
         try{
             initDB();
-            stmt = con.prepareStatement("SELECT * FROM Notices WHERE ID_notice = ?");
-            stmt.setObject(1, id);
+            stmt = con.prepareStatement("SELECT ID_library_card, full_name, ID_status, phone_number, email, address, passport FROM Readers");
             rs = stmt.executeQuery();
-            while(rs.next()){
-                notice = new Notice(
-                        rs.getInt("ID_notice"),
-                        rs.getString("message"),
-                        rs.getInt("ID_penalty"));
+            while (rs.next()) {
+                readers.add(new Reader(
+                    rs.getInt("ID_library_card"),
+                    rs.getString("full_name"),
+                    rs.getInt("ID_status"),
+                    rs.getString("phone_number"),
+                    rs.getString("email"),
+                    rs.getString("address"),
+                    rs.getString("passport")));
             }
-            stmt.close();
             closeDB();
         }
         catch(Exception ex){
             System.out.println(ex.getMessage());
         }
-        return notice;
-    }*/
+        return readers;
+    }
+
+    public int getReadersSize() throws SQLException{
+        int size = 0;
+        try{
+            initDB();
+            stmt = con.prepareStatement("SELECT COUNT(*) FROM Readers");
+            rs = stmt.executeQuery();
+            size = rs.getInt("COUNT(*)");
+            closeDB();
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return size;
+    }
 
     public void updateReaders1() throws SQLException {
         try{
@@ -367,45 +361,6 @@ public class DBQueries {
         catch(Exception ex){
             System.out.println(ex.getMessage());
         }
-    }
-
-    public ArrayList<Reader> getReaders() throws SQLException{
-        ArrayList<Reader> readers = new ArrayList<>();
-        try{
-            initDB();
-            stmt = con.prepareStatement("SELECT ID_library_card, full_name, ID_status, phone_number, email, address, passport FROM Readers");
-            rs = stmt.executeQuery();
-            while (rs.next()) {
-                readers.add(new Reader(
-                    rs.getInt("ID_library_card"),
-                    rs.getString("full_name"),
-                    rs.getInt("ID_status"),
-                    rs.getString("phone_number"),
-                    rs.getString("email"),
-                    rs.getString("address"),
-                    rs.getString("passport")));
-            }
-            closeDB();
-        }
-        catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
-        return readers;
-    }
-
-    public int getReadersSize() throws SQLException{
-        int size = 0;
-        try{
-            initDB();
-            stmt = con.prepareStatement("SELECT COUNT(*) FROM Readers");
-            rs = stmt.executeQuery();
-            size = rs.getInt("COUNT(*)");
-            closeDB();
-        }
-        catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
-        return size;
     }
 
     public ArrayList<Reader> getDebtors() throws SQLException{
@@ -469,6 +424,21 @@ public class DBQueries {
         return penalties;
     }
 
+    public int getPenaltiesSize() throws SQLException{
+        int size = 0;
+        try{
+            initDB();
+            stmt = con.prepareStatement("SELECT COUNT(*) FROM ReadersPenaltyNotice");
+            rs = stmt.executeQuery();
+            size = rs.getInt("COUNT(*)");
+            closeDB();
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return size;
+    }
+
     public void updatePenalties() throws SQLException {
         try{
             initDB();
@@ -500,21 +470,6 @@ public class DBQueries {
         }
     }
 
-    public int getPenaltiesSize() throws SQLException{
-        int size = 0;
-        try{
-            initDB();
-            stmt = con.prepareStatement("SELECT COUNT(*) FROM ReadersPenaltyNotice");
-            rs = stmt.executeQuery();
-            size = rs.getInt("COUNT(*)");
-            closeDB();
-        }
-        catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
-        return size;
-    }
-
     public ArrayList<Notice> getNotices() throws SQLException{
         ArrayList<Notice> notices = new ArrayList<>();
         try{
@@ -533,6 +488,21 @@ public class DBQueries {
             System.out.println(ex.getMessage());
         }
         return notices;
+    }
+
+    public int getNoticesSize() throws SQLException{
+        int size = 0;
+        try{
+            initDB();
+            stmt = con.prepareStatement("SELECT COUNT(*) FROM ReadersPenaltyNotice");
+            rs = stmt.executeQuery();
+            size = rs.getInt("COUNT(*)");
+            closeDB();
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return size;
     }
 
     public void insertNotices1() throws SQLException {
@@ -565,21 +535,6 @@ public class DBQueries {
         catch(Exception ex){
             System.out.println(ex.getMessage());
         }
-    }
-
-    public int getNoticesSize() throws SQLException{
-        int size = 0;
-        try{
-            initDB();
-            stmt = con.prepareStatement("SELECT COUNT(*) FROM ReadersPenaltyNotice");
-            rs = stmt.executeQuery();
-            size = rs.getInt("COUNT(*)");
-            closeDB();
-        }
-        catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
-        return size;
     }
 
     public void closeDB() throws SQLException {

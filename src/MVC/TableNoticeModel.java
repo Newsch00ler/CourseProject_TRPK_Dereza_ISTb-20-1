@@ -1,11 +1,7 @@
 package MVC;
 
 import DB.Database;
-import Model.LibraryCard;
-import Model.Notice;
-import Model.Reader;
 
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
 public class TableNoticeModel extends DefaultTableModel {

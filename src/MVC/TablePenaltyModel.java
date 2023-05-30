@@ -1,10 +1,7 @@
 package MVC;
 
 import DB.Database;
-import Model.LibraryCard;
-import Model.Penalty;
 
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
 public class TablePenaltyModel extends DefaultTableModel {

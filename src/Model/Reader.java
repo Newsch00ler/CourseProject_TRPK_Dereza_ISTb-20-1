@@ -19,7 +19,6 @@ public class Reader {
         this.email= email;
         this.ID_status = ID_status;
     }
-
     public Reader(String full_name, int ID_status, String phone_number, String email, String address, String passport){
         this.full_name = full_name;
         this.address = address;

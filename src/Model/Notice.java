@@ -6,12 +6,6 @@ public class Notice {
     private String message;
     private int ID_penalty;
 
-//    public Notice(int ID_notice, String message, int ID_penalty){
-//        this.ID_notice = ID_notice;
-//        this.message = message;
-//        this.ID_penalty = ID_penalty;
-//    }
-
     public Notice(int ID_notice, int ID_library_card, String message){
         this.ID_notice = ID_notice;
         this.ID_library_card = ID_library_card;
