@@ -11,37 +11,25 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Controller {
-    private Database database;
     private TableReaderModel tableReaderModel;
     private TablePenaltyModel tablePenaltyModel;
     private TableNoticeModel tableNoticeModel;
-    private View view;
-    private String listFlag = "readers";
 
-    private int sportFlag = 1;
-    private int row;
-    private String cell;
-    private String Sorting;
-    public Controller(){}
-    public Controller(Database database, TableReaderModel tableReaderModel, TablePenaltyModel tablePenaltyModel, TableNoticeModel tableNoticeModel, View view) {
-        this.database = database;
+    public Controller(TableReaderModel tableReaderModel, TablePenaltyModel tablePenaltyModel, TableNoticeModel tableNoticeModel) {
         this.tableReaderModel = tableReaderModel;
         this.tablePenaltyModel = tablePenaltyModel;
         this.tableNoticeModel = tableNoticeModel;
-        this.view = view;
     }
 
-    public String getFlag() {
-        return listFlag;
-    }
-
-    public void execute() {
+    public void execute(Database database, View view) {
         view.getMenuIReaders().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 view.setTitle("Формирование задолжников - читатели");
                 view.setReaders(true);
                 try {
+                    database.getPenaltyList().clear();
+                    database.getNoticeList().clear();
                     view.updateView(tableReaderModel, database);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
@@ -54,6 +42,8 @@ public class Controller {
                 view.setTitle("Формирование задолжников - штрафы");
                 view.setNotReaders(true);
                 try {
+                    database.getReadersList().clear();
+                    database.getNoticeList().clear();
                     view.updateView(tablePenaltyModel, database);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
@@ -66,6 +56,8 @@ public class Controller {
                 view.setTitle("Формирование задолжников - уведомления");
                 view.setNotReaders(true);
                 try {
+                    database.getReadersList().clear();
+                    database.getPenaltyList().clear();
                     view.updateView(tableNoticeModel, database);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);

@@ -26,10 +26,10 @@ public class Main {
         TableReaderModel tableReaderModel = new TableReaderModel(database);
         TablePenaltyModel tablePenaltyModel = new TablePenaltyModel(database);
         TableNoticeModel tableNoticeModel = new TableNoticeModel(database);
-        View mainView = new View(database);
+        View mainView = new View();
         mainView.displayTable(tableReaderModel, database);
         mainView.setLocationRelativeTo(null);
-        Controller controller = new Controller(database, tableReaderModel, tablePenaltyModel, tableNoticeModel, mainView);
-        controller.execute();
+        Controller controller = new Controller(tableReaderModel, tablePenaltyModel, tableNoticeModel);
+        controller.execute(database, mainView);
     }
 }

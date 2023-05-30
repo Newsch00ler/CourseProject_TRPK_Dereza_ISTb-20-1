@@ -53,7 +53,7 @@ public class View extends JFrame {
     private boolean flag = false;
 
 
-    public View(Database database) throws SQLException {
+    public View() throws SQLException {
         setTitle("Формирование задолжников - читатели");
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         setIconImage(new ImageIcon(Objects.requireNonNull(classloader.getResource("resources/Icon_book.png"))).getImage());
@@ -290,15 +290,12 @@ public class View extends JFrame {
     public JComboBox<String> getComboBSorting() {
         return cBSorting;
     }
-
     public String getComboBSortingItem0() {
         return cBSorting.getItemAt(0);
     }
-
     public String getComboBSortingItem1() {
         return cBSorting.getItemAt(1);
     }
-
     public JButton getButton() {
         return button;
     }
@@ -345,113 +342,10 @@ public class View extends JFrame {
     public void setButton(JButton button) {
         this.button = button;
     }
-    /*public void setTableModel(AbstractTableModel tM) {
-        this.tM = tM;
-    }*/
     public void setTable(JTable table) {
         this.table = table;
     }
     public void setScrollP(JScrollPane sP) {
         this.sP = sP;
-    }
-
-    /*public void setReadersTable(Database database) {
-        setTitle("Тырыпыры - читатели");
-        tM = new TableReaderModel(database);
-        table = new JTable(tM) {
-            @Override
-            public Component prepareRenderer(TableCellRenderer renderer, int row, int column) { //797
-                Component component = super.prepareRenderer(renderer, row, column);
-                TableColumn tableColumn = getColumnModel().getColumn(column);
-                switch (column) {
-                    case 0:
-                        tableColumn.setMinWidth(155);
-                        tableColumn.setMaxWidth(155);
-                        break;
-                    case 1:
-                        tableColumn.setPreferredWidth(135);
-                        break;
-                    case 2:
-                        tableColumn.setPreferredWidth(85);
-                        break;
-                    case 3:
-                        tableColumn.setMinWidth(102);
-                        tableColumn.setMaxWidth(102);
-                        break;
-                    case 4:
-                        tableColumn.setPreferredWidth(85);
-                        break;
-                    case 5:
-                        tableColumn.setPreferredWidth(135);
-                        break;
-                    case 6:
-                        tableColumn.setMinWidth(100);
-                        tableColumn.setMaxWidth(100);
-                        break;
-                }
-                return component;
-            }
-        };
-        tM.fireTableDataChanged();
-    }
-
-    public void setPenaltiesTable(Database database) {
-        setTitle("Тырыпыры - штрафы");
-        tM = new TablePenaltyModel(database);
-        table = new JTable(tM) {
-            @Override
-            public Component prepareRenderer(TableCellRenderer renderer, int row, int column) { //797
-                Component component = super.prepareRenderer(renderer, row, column);
-                TableColumn tableColumn = getColumnModel().getColumn(column);
-                switch (column) {
-                    case 0:
-                        tableColumn.setMinWidth(155);
-                        tableColumn.setMaxWidth(155);
-                        break;
-                    case 1:
-                        tableColumn.setPreferredWidth(135);
-                        break;
-                    case 2:
-                        tableColumn.setPreferredWidth(85);
-                        break;
-                    case 3:
-                        tableColumn.setMinWidth(102);
-                        tableColumn.setMaxWidth(102);
-                        break;
-                }
-                return component;
-            }
-        };
-        tM.fireTableDataChanged();
-    }
-
-    public void setNoticesTable(Database database) {
-        setTitle("Тырыпыры - уведомления");
-        tM = new TableNoticeModel(database);
-        table = new JTable(tM) {
-            @Override
-            public Component prepareRenderer(TableCellRenderer renderer, int row, int column) { //797
-                Component component = super.prepareRenderer(renderer, row, column);
-                TableColumn tableColumn = getColumnModel().getColumn(column);
-                switch (column) {
-                    case 0:
-                        tableColumn.setMinWidth(155);
-                        tableColumn.setMaxWidth(155);
-                        break;
-                    case 1:
-                        tableColumn.setPreferredWidth(135);
-                        break;
-                    case 2:
-                        tableColumn.setPreferredWidth(85);
-                        break;
-                }
-                return component;
-            }
-        };
-        tM.fireTableDataChanged();
-    }*/
-
-    public void updateTableModel() {
-        tM.fireTableDataChanged();
     }
 }
