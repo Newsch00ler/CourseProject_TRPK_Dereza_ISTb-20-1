@@ -1,4 +1,4 @@
-package CourseProject;
+package App;
 
 import DB.Database;
 import MVC.*;

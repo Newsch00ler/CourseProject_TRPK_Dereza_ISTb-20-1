@@ -193,7 +193,6 @@ public class View extends JFrame {
                         penaltyArrayList.get(i).getFine()});
         }
         else if (model instanceof TableNoticeModel) {
-            System.out.println("111");
             tM.setColumnCount(0);
             tM.setRowCount(0);
             tM = new TableNoticeModel(database);

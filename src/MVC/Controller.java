@@ -32,7 +32,7 @@ public class Controller {
                     database.getNoticeList().clear();
                     view.updateView(tableReaderModel, database);
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    JOptionPane.showMessageDialog(view, "Попробуйте позже!", "Предупреждение", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
@@ -46,7 +46,7 @@ public class Controller {
                     database.getNoticeList().clear();
                     view.updateView(tablePenaltyModel, database);
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    JOptionPane.showMessageDialog(view, "Попробуйте позже!", "Предупреждение", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
@@ -60,7 +60,7 @@ public class Controller {
                     database.getPenaltyList().clear();
                     view.updateView(tableNoticeModel, database);
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    JOptionPane.showMessageDialog(view, "Попробуйте позже!", "Предупреждение", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
@@ -92,7 +92,7 @@ public class Controller {
                     }
                     view.getTableModel().fireTableDataChanged();
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(view, "Try later!", "Warning", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(view, "Попробуйте позже!", "Предупреждение", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
@@ -117,7 +117,7 @@ public class Controller {
                     }
                     view.getTableModel().fireTableDataChanged();
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(view, "Try later!", "Warning", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(view, "Попробуйте позже!", "Предупреждение", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
@@ -146,7 +146,6 @@ public class Controller {
         view.getButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 try {
                     database.updateReaders1();
                     database.updateReaders2();
@@ -177,7 +176,7 @@ public class Controller {
                     view.getRadioBReaders().setSelected(false);
                     view.getRadioBDebtors().setSelected(true);
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(view, "Try later!", "Warning", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(view, "Попробуйте позже!", "Предупреждение", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
