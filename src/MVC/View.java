@@ -120,8 +120,9 @@ public class View extends JFrame {
     public void displayTable(DefaultTableModel model, Database database) throws SQLException {
         if (model instanceof TableReaderModel) {
             if(flag){
-                tM.setColumnCount(0);
                 tM.setRowCount(0);
+                tM.setColumnCount(0);
+
             }
             flag = true;
             tM = new TableReaderModel(database);
@@ -143,21 +144,36 @@ public class View extends JFrame {
             table.getColumnModel().getColumn(6).setMaxWidth(80);
 
             ArrayList<Reader> readerArrayList = database.getReaders();
-            for(int i = 0; i < database.getReadersSize(); i++){
+            database.setReadersList(readerArrayList);
+//            for (Reader reader : readerArrayList) {
+//                String status;
+//                if (reader.getID_status() == 1) {
+//                    status = "Читатель";
+//                } else {
+//                    status = "Задолжник";
+//                }
+//                tM.addRow(new Object[]{reader.getID_library_card(),
+//                        reader.getFull_name(),
+//                        status,
+//                        reader.getPhone_number(),
+//                        reader.getEmail(),
+//                        reader.getAddress(),
+//                        reader.getPassport()});
+//            }
+            for (Reader reader : database.getReadersList()) {
                 String status;
-                if(readerArrayList.get(i).getID_status() == 1){
+                if (reader.getID_status() == 1) {
                     status = "Читатель";
-                }
-                else{
+                } else {
                     status = "Задолжник";
                 }
-                tM.addRow(new Object[]{readerArrayList.get(i).getID_library_card(),
-                        readerArrayList.get(i).getFull_name(),
+                tM.addRow(new Object[]{reader.getID_library_card(),
+                        reader.getFull_name(),
                         status,
-                        readerArrayList.get(i).getPhone_number(),
-                        readerArrayList.get(i).getEmail(),
-                        readerArrayList.get(i).getAddress(),
-                        readerArrayList.get(i).getPassport()});
+                        reader.getPhone_number(),
+                        reader.getEmail(),
+                        reader.getAddress(),
+                        reader.getPassport()});
             }
             cBSorting.removeAllItems();
             for(String i : itemsSorting){
@@ -165,8 +181,8 @@ public class View extends JFrame {
             }
         }
         else if (model instanceof TablePenaltyModel) {
-            tM.setColumnCount(0);
             tM.setRowCount(0);
+            tM.setColumnCount(0);
             tM = new TablePenaltyModel(database);
             table.setModel(tM);
             TablePenaltyModel tablePenaltyModel = (TablePenaltyModel) tM;
@@ -186,15 +202,16 @@ public class View extends JFrame {
             table.getColumnModel().getColumn(3).setMaxWidth(255);
 
             ArrayList<Penalty> penaltyArrayList = database.getPenalties();
-            for(int i = 0; i < database.getPenaltiesSize(); i++)
-                tM.addRow(new Object[]{penaltyArrayList.get(i).getID_penalty(),
-                        penaltyArrayList.get(i).getID_library_card(),
-                        penaltyArrayList.get(i).getName(),
-                        penaltyArrayList.get(i).getFine()});
+            database.setPenaltyList(penaltyArrayList);
+            for (Penalty penalty : database.getPenaltyList())
+                tM.addRow(new Object[]{penalty.getID_penalty(),
+                        penalty.getID_library_card(),
+                        penalty.getName(),
+                        penalty.getFine()});
         }
         else if (model instanceof TableNoticeModel) {
-            tM.setColumnCount(0);
             tM.setRowCount(0);
+            tM.setColumnCount(0);
             tM = new TableNoticeModel(database);
             table.setModel(tM);
             TableNoticeModel tableNoticeModel  = (TableNoticeModel) tM;
@@ -211,16 +228,17 @@ public class View extends JFrame {
             table.getColumnModel().getColumn(2).setMaxWidth(733);
 
             ArrayList<Notice> noticeArrayList = database.getNotices();
-            for(int i = 0; i < database.getNoticesSize(); i++)
-                tM.addRow(new Object[]{noticeArrayList.get(i).getID_notice(),
-                        noticeArrayList.get(i).getID_library_card(),
-                        noticeArrayList.get(i).getMessage()});
+            database.setNoticeList(noticeArrayList);
+            for (Notice notice : database.getNoticeList())
+                tM.addRow(new Object[]{notice.getID_notice(),
+                        notice.getID_library_card(),
+                        notice.getMessage()});
         }
     }
 
     public void updateView(DefaultTableModel model, Database database) throws SQLException {
         displayTable(model, database);
-        revalidate();
+        validate();
         repaint();
     }
 

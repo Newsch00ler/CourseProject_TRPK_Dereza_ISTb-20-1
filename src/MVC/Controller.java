@@ -71,7 +71,6 @@ public class Controller {
                 view.setReaders(true);
                 try {
                     database.getReadersList().clear();
-                    //database.setReadersList(database.getDebtors());
 
                     ArrayList<Reader> readerArrayList = database.getReaders();
                     for (int i = 0; i < database.getReadersSize(); i++) {
